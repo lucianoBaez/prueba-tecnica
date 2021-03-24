@@ -36,7 +36,7 @@ git clone https://github.com/lucianoBaez/prueba-tecnica.git
 
 ## Swagger UI  
 
-Para acceder localmente, luego de levantar el proyecto [link] (http://localhost:8080/swagger-ui.html)
+Para acceder localmente, luego de levantar el proyecto en este [link](http://localhost:8080/swagger-ui.html)
 
-Para acceder a la versión desplegada en Heroku: [link] (https://prueba-tecnica-dynamic-dev.herokuapp.com/swagger-ui.html)
+Para acceder a la versión desplegada en Heroku desde este [link](https://prueba-tecnica-dynamic-dev.herokuapp.com/swagger-ui.html) 
 
