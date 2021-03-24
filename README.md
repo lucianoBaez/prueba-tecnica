@@ -57,6 +57,29 @@ Para acceder localmente, luego de levantar el proyecto [http://localhost:8080/sw
 
 Para acceder a la versión desplegada en Heroku desde la url: [https://prueba-tecnica-dynamic-dev.herokuapp.com/swagger-ui.html]
 
+5. **Invocación a servicios**
+
+* Ordernar y rellenar arreglo
+
+```console
+curl -X POST "http://localhost:8080/examen/ordenarYRellenar" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"valores\": [ 1,8,14 ]}"
+```
+
+
+* Cambiar letras de la palabra
+
+```console
+curl -X GET "http://localhost:8080/examen/cambiarLetras/Dynamic%20Devs" -H "accept: */*"
+```
+
+
+* Obtener combinacion de billetes
+
+```console
+curl -X GET "http://localhost:8080/examen/combinarBilletes/1" -H "accept: */*"
+```
+
+
 
 ## Tests
 
