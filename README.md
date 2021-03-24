@@ -101,6 +101,8 @@ curl -X GET "http://localhost:8080/examen/combinarBilletes/1" -H "accept: */*"
  ./gradlew test jacocoTestReport
 ```
 
+![](/code_coverage.png)
+
 El resultado queda en:
 
 ```console
