@@ -1,6 +1,7 @@
 package com.examen.dynamic.service.impl;
 
 import com.examen.dynamic.service.ExamenService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,19 +13,23 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ExamenServiceImpl implements ExamenService {
 
     private final List<Double> DENOMINACIONES = Arrays.asList(0.20, 0.50, 1D, 2D, 5D, 10D, 20D, 50D, 100D, 200D);
 
     @Override
     public List ordenarRellenar(List<Integer> valores) {
+	log.info("Lista desordenada: {}", valores.toString());
 
 	Integer max = valores.stream().mapToInt(v -> v).max().orElseThrow(NoSuchElementException::new);
-
+	log.info("Valor maximo obtenido del conjunto de valores ingresados: {}", max);
 	List listaOrdenadaYCompleta = new ArrayList();
 	for (int i = 0; i < max; i++) {
 	    listaOrdenadaYCompleta.add(i + 1);
 	}
+
+	log.info("Lista ordenada: {}", listaOrdenadaYCompleta.toString());
 	return listaOrdenadaYCompleta;
     }
 
@@ -51,6 +56,8 @@ public class ExamenServiceImpl implements ExamenService {
 
     @Override
     public List<List<Double>> obtenerCombinacionesBilletes(Double importe) {
+
+	log.info("Importe recibido: {}", importe);
 	List billetes = new ArrayList();
 	Map<String, List<Double>> combinacionesSinRepetirse  = new HashMap<>();
 
@@ -58,6 +65,7 @@ public class ExamenServiceImpl implements ExamenService {
 	List<List<Double>> combinacionesList = new ArrayList<>();
 	combinacionesSinRepetirse.forEach((k,v) -> combinacionesList.add(v));
 
+	log.info("Combinacion de billetes para el importe recibido: {}", combinacionesList.toString());
 	return combinacionesList;
     }
 

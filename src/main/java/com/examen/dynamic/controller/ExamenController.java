@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/examen")
+@Slf4j
 public class ExamenController {
 
     @Autowired
@@ -33,6 +35,7 @@ public class ExamenController {
     @PostMapping("/ordenarYRellenar")
     @ApiOperation(value = "Ordena y rellena con los numeros que faltan", response = String.class)
     public ResponseEntity<ResultadoOrdenarYCompletar> ordenarRellenar(@RequestBody EntradaOrdenarYCompletar request) {
+        log.info("Iniciando procesode ordenar y rellenar arreglo");
 	List listaOrdenadaYCompleta = getExamenService().ordenarRellenar(request.getValores());
 	ResultadoOrdenarYCompletar resultado = ResultadoOrdenarYCompletar.builder().valoresOriginales(request.getValores()).valoresCompletosYOrdenados(listaOrdenadaYCompleta).build();
 	return ResponseEntity.ok().body(resultado);
@@ -41,7 +44,10 @@ public class ExamenController {
     @GetMapping("/cambiarLetras/{palabra}")
     @ApiOperation(value = "Reemplaza cada letra por la siguiente letra del abecedario, si es una Z, coloca una A", response = String.class)
     public ResponseEntity<ResultadoCambioLetras> cambiarLetras( @ApiParam(value = "Palabra", required = true, example = "Dynamic Devs") @PathVariable("palabra") String palabra) {
+	log.info("Cambiando letras de la palabra {}", palabra);
 	String palabraResultado = getExamenService().cambiarLetras(palabra);
+
+	log.info("El resultado obtenido fue {}", palabraResultado);
 	ResultadoCambioLetras resultado = ResultadoCambioLetras.builder().palabraIngresada(palabra).palabraConvertida(palabraResultado).build();
 	return ResponseEntity.ok().body(resultado);
     }
@@ -49,6 +55,7 @@ public class ExamenController {
     @GetMapping("/combinarBilletes/{importe}")
     @ApiOperation(value = "Retorna las combinaciones posibles de billetes", response = String.class)
     public ResponseEntity<ResultadoCombinacionBilletes> obtenerCombinacionesBilletes( @ApiParam(value = "Importe", required = true, example = "1") @PathVariable("importe") Double importe) {
+	log.info("Generando combinaciones de billetes para el {} soles", importe);
 	List<List<Double>> combinacionesList = getExamenService().obtenerCombinacionesBilletes(importe);
 	ResultadoCombinacionBilletes resultado = ResultadoCombinacionBilletes.builder().montoIngresado(importe)
 			.combinacionBilletes(combinacionesList).build();
