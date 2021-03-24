@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,29 +37,47 @@ public class ExamenController {
     @ApiOperation(value = "Ordena y rellena con los numeros que faltan", response = String.class)
     public ResponseEntity<ResultadoOrdenarYCompletar> ordenarRellenar(@RequestBody EntradaOrdenarYCompletar request) {
         log.info("Iniciando procesode ordenar y rellenar arreglo");
-	List listaOrdenadaYCompleta = getExamenService().ordenarRellenar(request.getValores());
-	ResultadoOrdenarYCompletar resultado = ResultadoOrdenarYCompletar.builder().valoresOriginales(request.getValores()).valoresCompletosYOrdenados(listaOrdenadaYCompleta).build();
-	return ResponseEntity.ok().body(resultado);
+
+        if (request.getValores() != null && request.getValores().size() > 0) {
+	    List listaOrdenadaYCompleta = getExamenService().ordenarRellenar(request.getValores());
+	    ResultadoOrdenarYCompletar resultado = ResultadoOrdenarYCompletar.builder().valoresOriginales(request.getValores()).valoresCompletosYOrdenados(listaOrdenadaYCompleta).build();
+	    return ResponseEntity.ok().body(resultado);
+	} else {
+	    log.info("El arreglo esta nulo o vacio");
+            return ResponseEntity.badRequest().body(null);
+	}
     }
 
     @GetMapping("/cambiarLetras/{palabra}")
     @ApiOperation(value = "Reemplaza cada letra por la siguiente letra del abecedario, si es una Z, coloca una A", response = String.class)
     public ResponseEntity<ResultadoCambioLetras> cambiarLetras( @ApiParam(value = "Palabra", required = true, example = "Dynamic Devs") @PathVariable("palabra") String palabra) {
-	log.info("Cambiando letras de la palabra {}", palabra);
-	String palabraResultado = getExamenService().cambiarLetras(palabra);
 
-	log.info("El resultado obtenido fue {}", palabraResultado);
-	ResultadoCambioLetras resultado = ResultadoCambioLetras.builder().palabraIngresada(palabra).palabraConvertida(palabraResultado).build();
-	return ResponseEntity.ok().body(resultado);
+        if (palabra != null && !palabra.trim().equals("")) {
+	    log.info("Cambiando letras de la palabra {}", palabra);
+	    String palabraResultado = getExamenService().cambiarLetras(palabra);
+
+	    log.info("El resultado obtenido fue {}", palabraResultado);
+	    ResultadoCambioLetras resultado = ResultadoCambioLetras.builder().palabraIngresada(palabra).palabraConvertida(palabraResultado).build();
+	    return ResponseEntity.ok().body(resultado);
+ 	} else {
+	    return ResponseEntity.badRequest().body(null);
+	}
+
     }
 
     @GetMapping("/combinarBilletes/{importe}")
     @ApiOperation(value = "Retorna las combinaciones posibles de billetes", response = String.class)
     public ResponseEntity<ResultadoCombinacionBilletes> obtenerCombinacionesBilletes( @ApiParam(value = "Importe", required = true, example = "1") @PathVariable("importe") Double importe) {
-	log.info("Generando combinaciones de billetes para el {} soles", importe);
-	List<List<Double>> combinacionesList = getExamenService().obtenerCombinacionesBilletes(importe);
-	ResultadoCombinacionBilletes resultado = ResultadoCombinacionBilletes.builder().montoIngresado(importe)
-			.combinacionBilletes(combinacionesList).build();
-	return ResponseEntity.ok().body(resultado);
+
+       	if(importe != null && importe.compareTo(0D) > 0) {
+	    log.info("Generando combinaciones de billetes para el {} soles", importe);
+	    List<List<Double>> combinacionesList = getExamenService().obtenerCombinacionesBilletes(importe);
+	    ResultadoCombinacionBilletes resultado = ResultadoCombinacionBilletes.builder().montoIngresado(importe)
+			    .combinacionBilletes(combinacionesList).build();
+	    return ResponseEntity.ok().body(resultado);
+	} else {
+	    log.info("El importe es nulo o invaĺido", importe);
+	    return ResponseEntity.badRequest().body(null);
+	}
     }
 }
