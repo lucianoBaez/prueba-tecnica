@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel(value = "Contiene lista de objetos a ordenar", description = "Muestra la palabra ingresada y la palabra que resulta luego del intercambio de caracteres")
+@ApiModel(value = "EntradaOrdenarYCompletar", description = "Lista de valores a ordenar")
 public class EntradaOrdenarYCompletar {
     @Getter
     @Setter

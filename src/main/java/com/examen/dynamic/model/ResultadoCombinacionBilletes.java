@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-@ApiModel(value = "ResultadoCambioLetras", description = "Muestra la palabra ingresada y la palabra que resulta luego del intercambio de caracteres")
+@ApiModel(value = "ResultadoCombinacionBilletes", description = "Muestra lista de combinaciones de billetes para el importe ingresado")
 @Builder
 public class ResultadoCombinacionBilletes {
     @Getter

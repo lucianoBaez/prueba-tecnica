@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel(value = "Contiene lista de objetos a ordenar", description = "Muestra la palabra ingresada y la palabra que resulta luego del intercambio de caracteres")
+@ApiModel(value = "ResultadoOrdenarYCompletar", description = "Contiene la lista con los valores originales y con los valores ordenados")
 @Builder
 public class ResultadoOrdenarYCompletar {
     @Getter

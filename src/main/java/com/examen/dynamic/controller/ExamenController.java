@@ -33,7 +33,7 @@ public class ExamenController {
 
 
     @PostMapping("/ordenarYRellenar")
-    @ApiOperation(value = "Ordena y rellena con los numeros que faltan", response = String.class)
+    @ApiOperation(value = "Ordena y rellena con los numeros que faltan", response = ResultadoOrdenarYCompletar.class)
     public ResponseEntity<ResultadoOrdenarYCompletar> ordenarRellenar(@RequestBody EntradaOrdenarYCompletar request) {
         log.info("Iniciando procesode ordenar y rellenar arreglo");
 
@@ -48,7 +48,7 @@ public class ExamenController {
     }
 
     @GetMapping("/cambiarLetras/{palabra}")
-    @ApiOperation(value = "Reemplaza cada letra por la siguiente letra del abecedario, si es una Z, coloca una A", response = String.class)
+    @ApiOperation(value = "Reemplaza cada letra por la siguiente letra del abecedario, si es una Z, coloca una A", response = ResultadoCambioLetras.class)
     public ResponseEntity<ResultadoCambioLetras> cambiarLetras( @ApiParam(value = "Palabra", required = true, example = "Dynamic Devs") @PathVariable("palabra") String palabra) {
 
         if (palabra != null && !palabra.trim().equals("")) {
@@ -65,7 +65,7 @@ public class ExamenController {
     }
 
     @GetMapping("/combinarBilletes/{importe}")
-    @ApiOperation(value = "Retorna las combinaciones posibles de billetes", response = String.class)
+    @ApiOperation(value = "Retorna las combinaciones posibles de billetes", response = ResultadoCombinacionBilletes.class)
     public ResponseEntity<ResultadoCombinacionBilletes> obtenerCombinacionesBilletes( @ApiParam(value = "Importe", required = true, example = "1") @PathVariable("importe") Double importe) {
 
        	if(importe != null && importe.compareTo(0D) > 0) {
