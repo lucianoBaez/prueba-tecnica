@@ -23,4 +23,9 @@ dependencies {
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile('io.springfox:springfox-bean-validators:2.9.2')
 
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 }
