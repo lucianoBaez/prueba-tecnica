@@ -20,53 +20,69 @@ public class ExamenServiceImpl implements ExamenService {
 
     @Override
     public List ordenarRellenar(List<Integer> valores) {
-	log.info("Lista desordenada: {}", valores.toString());
+        if(valores != null && valores.size() > 0) {
+	    log.info("Lista desordenada: {}", valores.toString());
 
-	Integer max = valores.stream().mapToInt(v -> v).max().orElseThrow(NoSuchElementException::new);
-	log.info("Valor maximo obtenido del conjunto de valores ingresados: {}", max);
-	List listaOrdenadaYCompleta = new ArrayList();
-	for (int i = 0; i < max; i++) {
-	    listaOrdenadaYCompleta.add(i + 1);
+	    Integer max = valores.stream().mapToInt(v -> v).max().orElseThrow(NoSuchElementException::new);
+	    log.info("Valor maximo obtenido del conjunto de valores ingresados: {}", max);
+	    List listaOrdenadaYCompleta = new ArrayList();
+	    for (int i = 0; i < max; i++) {
+		listaOrdenadaYCompleta.add(i + 1);
+	    }
+
+	    log.info("Lista ordenada: {}", listaOrdenadaYCompleta.toString());
+	    return listaOrdenadaYCompleta;
+	} else {
+	    log.warn("Lista vacia o nula");
+	    return new ArrayList();
 	}
-
-	log.info("Lista ordenada: {}", listaOrdenadaYCompleta.toString());
-	return listaOrdenadaYCompleta;
     }
 
     @Override
     public String cambiarLetras(String palabra) {
-	StringBuilder palabraResultado = new StringBuilder();
-	for (char caracter: palabra.toCharArray()) {
-	    if (Character.isLetter(caracter)) {
-		int ascii = caracter;
-		String caracterReemplazado = "";
+        if(palabra != null && !palabra.equals("")) {
+	    StringBuilder palabraResultado = new StringBuilder();
+	    for (char caracter: palabra.toCharArray()) {
+		if (Character.isLetter(caracter)) {
+		    int ascii = caracter;
+		    String caracterReemplazado = "";
 
-		if (ascii != 122 && ascii != 90) { //122 = z, 90 = Z
-		    caracterReemplazado = Character.toString((char) (ascii + 1));
+		    if (ascii != 122 && ascii != 90) { //122 = z, 90 = Z
+			caracterReemplazado = Character.toString((char) (ascii + 1));
+		    } else {
+			caracterReemplazado = Character.toString((char) (ascii - 25));
+		    }
+		    palabraResultado.append(caracterReemplazado);
 		} else {
-		    caracterReemplazado = Character.toString((char) (ascii - 25));
+		    palabraResultado.append(caracter);
 		}
-		palabraResultado.append(caracterReemplazado);
-	    } else {
-		palabraResultado.append(caracter);
 	    }
+	    return palabraResultado.toString();
+	} else {
+            return "";
 	}
-	return palabraResultado.toString();
+
     }
 
     @Override
     public List<List<Double>> obtenerCombinacionesBilletes(Double importe) {
 
-	log.info("Importe recibido: {}", importe);
-	List billetes = new ArrayList();
-	Map<String, List<Double>> combinacionesSinRepetirse  = new HashMap<>();
+        if(importe != null && importe.compareTo(0D) > 0) {
+	    log.info("Importe recibido: {}", importe);
+	    List billetes = new ArrayList();
+	    Map<String, List<Double>> combinacionesSinRepetirse  = new HashMap<>();
 
-	combinarBilletes(importe, DENOMINACIONES, billetes, 0D, combinacionesSinRepetirse);
-	List<List<Double>> combinacionesList = new ArrayList<>();
-	combinacionesSinRepetirse.forEach((k,v) -> combinacionesList.add(v));
+	    combinarBilletes(importe, DENOMINACIONES, billetes, 0D, combinacionesSinRepetirse);
+	    List<List<Double>> combinacionesList = new ArrayList<>();
+	    combinacionesSinRepetirse.forEach((k,v) -> combinacionesList.add(v));
 
-	log.info("Combinacion de billetes para el importe recibido: {}", combinacionesList.toString());
-	return combinacionesList;
+	    log.info("Combinacion de billetes para el importe recibido: {}", combinacionesList.toString());
+	    return combinacionesList;
+	} else {
+            log.warn("No hay combinaciones para valores nulos o cero");
+            return new ArrayList<>();
+	}
+
     }
 
     private void combinarBilletes(Double importe, List<Double> denominaciones, List<Double> billetes, Double suma, Map<String, List<Double>> combinacionesSinRepetirse) {
